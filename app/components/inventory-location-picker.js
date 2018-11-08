@@ -1,6 +1,9 @@
 import { scheduleOnce } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
-import EmberObject, { defineProperty, computed } from '@ember/object';
+import EmberObject, {
+  defineProperty,
+  computed
+} from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import Component from '@ember/component';
 import SelectValues from 'hospitalrun/utils/select-values';

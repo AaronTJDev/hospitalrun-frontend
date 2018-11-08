@@ -15,13 +15,13 @@ module.exports = {
   globals: {
     '$': true,
     'require': true,
-    'wait': true,
+    'wait': true
   },
 
   rules: {
     'camelcase': 0,
     'ember-suave/no-direct-property-access': 0,
     'ember-suave/require-access-in-comments': 0,
-    'no-console': 0
+    'no-console': 0,
   }
 };

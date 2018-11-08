@@ -1,3 +1,4 @@
+import { click, fillIn, find, findAll, currentURL, visit } from '@ember/test-helpers';
 import select from 'hospitalrun/tests/helpers/select';
 import { waitToAppear, waitToDisappear } from 'hospitalrun/tests/helpers/wait-to-appear';
 
@@ -15,17 +16,17 @@ export async function createCustomFormForType(formType, alwaysInclude, assert) {
     }
 
     select('.custom-field-select', fieldType);
-    fillIn('.custom-field-label input', label);
-    fillIn('.custom-field-colspan input', '1');
+    await fillIn('.custom-field-label input', label);
+    await fillIn('.custom-field-colspan input', '1');
 
     if (values) {
       if (assert) {
         await click('button:contains(Add Value)');
         await fillIn('.custom-field-value:last', 'Delete Me');
-        assert.equal(find('.custom-field-value:contains(Delete Me)').length, 0, 'Field value successfully added');
+        assert.equal(findAll('.custom-field-value:contains(Delete Me)').length, 0, 'Field value successfully added');
 
         await click('button.delete-field-value');
-        assert.equal(find('.custom-field-value:contains(Delete Me)').length, 0, 'Field value successfully deleted');
+        assert.equal(findAll('.custom-field-value:contains(Delete Me)').length, 0, 'Field value successfully deleted');
       }
 
       for (let value of values) {
@@ -74,27 +75,27 @@ export async function createCustomFormForType(formType, alwaysInclude, assert) {
 
 export async function checkCustomFormIsDisplayed(assert, header) {
   await waitToAppear(`h4:contains(${header})`);
-  assert.equal(find(`h4:contains(${header})`).length, 1, `Form ${header} is displayed`);
+  assert.equal(findAll(`h4:contains(${header})`).length, 1, `Form ${header} is displayed`);
 
   let formDiv = find(`h4:contains(${header}) + .js-custom-form`);
 
-  assert.equal(find('label:contains(Create a Pizza)', formDiv).length, 1, 'There is a form header');
+  assert.equal(findAll('label:contains(Create a Pizza)', formDiv).length, 1, 'There is a form header');
 
-  assert.equal(find('label:contains(Pizza Crust)', formDiv).length, 1, 'There is a dropdown header');
+  assert.equal(findAll('label:contains(Pizza Crust)', formDiv).length, 1, 'There is a dropdown header');
   assert.dom('select', formDiv[0]).exists({ count: 1 }, 'There is a dropdown');
-  assert.equal(find('option', formDiv).length, crusts.length, 'There are options');
+  assert.equal(findAll('option', formDiv).length, crusts.length, 'There are options');
 
-  assert.equal(find('label:contains(Pizza Toppings)', formDiv).length, 1, 'There is a checkbox header');
-  assert.equal(find('input[type=checkbox]', formDiv).length, toppings.length, 'There are checkboxes');
+  assert.equal(findAll('label:contains(Pizza Toppings)', formDiv).length, 1, 'There is a checkbox header');
+  assert.equal(findAll('input[type=checkbox]', formDiv).length, toppings.length, 'There are checkboxes');
 
-  assert.equal(find('label:contains(Special Instructions)', formDiv).length, 1, 'There is a textarea header');
+  assert.equal(findAll('label:contains(Special Instructions)', formDiv).length, 1, 'There is a textarea header');
   assert.dom('textarea', formDiv[0]).exists({ count: 1 }, 'There is a textarea');
 
-  assert.equal(find('label:contains(Dessert)', formDiv).length, 1, 'There is a radio header');
-  assert.equal(find('input[type=radio]', formDiv).length, desserts.length, 'There are radios');
+  assert.equal(findAll('label:contains(Dessert)', formDiv).length, 1, 'There is a radio header');
+  assert.equal(findAll('input[type=radio]', formDiv).length, desserts.length, 'There are radios');
 
-  assert.equal(find('label:contains(Beverage)', formDiv).length, 1, 'There is a text header');
-  assert.equal(find('label:contains(Beverage)+input[type=text]', formDiv).length, 1, 'There is a text input');
+  assert.equal(findAll('label:contains(Beverage)', formDiv).length, 1, 'There is a text header');
+  assert.equal(findAll('label:contains(Beverage)+input[type=text]', formDiv).length, 1, 'There is a text input');
 }
 
 export async function fillCustomForm(header) {
@@ -111,12 +112,12 @@ export async function checkCustomFormIsFilled(assert, header) {
 
   let formDiv = find(`h4:contains(${header}) + .js-custom-form`);
 
-  assert.equal(find('label:contains(Create a Pizza)', formDiv).length, 1, 'There is a form header');
+  assert.equal(findAll('label:contains(Create a Pizza)', formDiv).length, 1, 'There is a form header');
   assert.dom('select', formDiv[0]).hasValue(crusts[2], 'There is value in select');
   assert.ok(find('input[type=checkbox]:last', formDiv).is(':checked'), 'There is value in checkbox');
-  assert.equal(find('input:radio:checked', formDiv).val(), desserts[1], 'There is value in radio');
+  assert.equal(find('input:radio:checked', formDiv).value, desserts[1], 'There is value in radio');
   assert.dom('textarea', formDiv[0]).hasValue(`Large text for the form ${header}`, 'There is value in textarea');
-  assert.equal(find('label:contains(Beverage)+input[type=text]', formDiv).val(), `Small text for the form ${header}`, 'There is value in the input');
+  assert.equal(find('label:contains(Beverage)+input[type=text]', formDiv).value, `Small text for the form ${header}`, 'There is value in the input');
 }
 
 export async function checkCustomFormIsFilledAndReadonly(assert, header) {
@@ -124,12 +125,12 @@ export async function checkCustomFormIsFilledAndReadonly(assert, header) {
 
   let formDiv = find(`h4:contains(${header}) + .js-custom-form`);
 
-  assert.equal(find('label:contains(Create a Pizza)', formDiv).length, 1, 'There is a form header');
-  assert.equal(find(`p:contains(${crusts[2]})`, formDiv).length, 1, 'There is text from select');
-  assert.equal(find(`p:contains(${desserts[1]})`, formDiv).length, 1, 'There is text from radio');
+  assert.equal(findAll('label:contains(Create a Pizza)', formDiv).length, 1, 'There is a form header');
+  assert.equal(findAll(`p:contains(${crusts[2]})`, formDiv).length, 1, 'There is text from select');
+  assert.equal(findAll(`p:contains(${desserts[1]})`, formDiv).length, 1, 'There is text from radio');
   assert.ok(find('input[type=checkbox]:last', formDiv).is(':checked'), 'There is value in checkbox');
-  assert.equal(find(`p:contains(Large text for the form ${header})`, formDiv).length, 1, 'There is text from textarea');
-  assert.equal(find(`p:contains(Small text for the form ${header})`, formDiv).length, 1, 'There is text from input');
+  assert.equal(findAll(`p:contains(Large text for the form ${header})`, formDiv).length, 1, 'There is text from textarea');
+  assert.equal(findAll(`p:contains(Small text for the form ${header})`, formDiv).length, 1, 'There is text from input');
 }
 
 export async function attachCustomForm(name) {

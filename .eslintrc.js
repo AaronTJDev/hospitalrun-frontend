@@ -9,11 +9,7 @@ module.exports = {
   ],
   extends: [
     'eslint:recommended',
-<<<<<<< HEAD
     'plugin:ember-suave/recommended'
-=======
-    'plugin:ember/recommended'
->>>>>>> d6c7d526... message
   ],
   env: {
     browser: true
@@ -34,27 +30,19 @@ module.exports = {
   },
 
   rules: {
-<<<<<<< HEAD
     'camelcase': 0,
     'ember-suave/no-direct-property-access': 0,
     'ember-suave/require-access-in-comments': 0,
     'no-console': 0
-=======
->>>>>>> d6c7d526... message
   },
   overrides: [
     // node files
     {
       files: [
-<<<<<<< HEAD
-        'testem.js',
-        'ember-cli-build.js',
-=======
         '.template-lintrc.js',
         'ember-cli-build.js',
         'testem.js',
         'blueprints/*/index.js',
->>>>>>> d6c7d526... message
         'config/**/*.js',
         'lib/*/index.js'
       ],
@@ -66,18 +54,6 @@ module.exports = {
         browser: false,
         node: true
       }
-<<<<<<< HEAD
-    },
-
-    // test files
-    {
-      files: ['tests/**/*.js'],
-      excludedFiles: ['tests/dummy/**/*.js'],
-      env: {
-        embertest: true
-      }
-=======
->>>>>>> d6c7d526... message
     }
   ]
 };

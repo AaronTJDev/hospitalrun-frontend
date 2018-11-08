@@ -1,5 +1,5 @@
+import { computed } from '@ember/object';
 import AbstractModuleRoute from 'hospitalrun/routes/abstract-module-route';
-import Ember from 'ember';
 import { translationMacro as t } from 'ember-i18n';
 
 export default AbstractModuleRoute.extend({
@@ -21,7 +21,7 @@ export default AbstractModuleRoute.extend({
   moduleName: 'pricing',
   newButtonText: t('buttons.newItem'),
   sectionTitle: t('pricing.sectionTitle'),
-  subActions: Ember.computed(function() {
+  subActions: computed(function() {
     return [{
       text: this.get('i18n').t('pricing.navigation.allPricingItems'),
       linkTo: 'pricing.index'

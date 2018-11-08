@@ -1,3 +1,4 @@
+import { click, fillIn } from '@ember/test-helpers';
 // Derived from https://raw.githubusercontent.com/edgycircle/ember-pikaday/master/addon/helpers/pikaday.js
 import moment from 'moment';
 
